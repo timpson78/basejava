@@ -5,7 +5,7 @@
 - <a href="http://www.intuit.ru/studies/courses/16/16/lecture/27107?page=1">Методология процедурно-ориентированного и объектно-ориентированного программирования</a>
 - <a href="http://www.intuit.ru/studies/courses/16/16/lecture/27107?page=2">Объекты (cостояние, поведение, уникальность)</a>
 - <a href="http://www.intuit.ru/studies/courses/16/16/lecture/27107?page=3">Классы. Инкапсуляция. Наследование. Полиморфизм.</a>
-- <a href="http://info.javarush.ru/translation/2016/01/28Объектно-ориентированное-программирование-перевод-статьи-.html">Объектно-ориентированное программирование (перевод статьи)</a>
+- <a href="https://github.com/ichimax/Core-Java-Interview-Questions/blob/master/Questions/1.%20OOP.md">Основы Объектно-Ориентированного Программирования (ООП)</a>
 - <a href="http://www.intuit.ru/studies/courses/16/16/lecture/27107?page=4">Типы отношений между классами</a> <a href="http://ru.wikipedia.org/wiki/%D0%94%D0%B8%D0%B0%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B0_%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%BE%D0%B2#.D0.92.D0.B7.D0.B0.D0.B8.D0.BC.D0.BE.D1.81.D0.B2.D1.8F.D0.B7.D0.B8">Наследование, агрегация, композиция, ассоциация.</a>
 - <a href="http://www.intuit.ru/studies/courses/16/16/lecture/27107?page=5">Достоинства/Недостатки  ООП.</a> Библиотеки vs фреймворки.
 - Дополнительно:
