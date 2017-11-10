@@ -11,6 +11,7 @@ public class MainArray {
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Resume r;
+
         while (true) {
             System.out.print("Введите одну из команд - (list | save uuid | delete uuid | get uuid | clear | exit): ");
             String[] params = reader.readLine().trim().toLowerCase().split(" ");
@@ -19,8 +20,11 @@ public class MainArray {
                 continue;
             }
             String uuid = null;
+            String uuid1 = null;
+
             if (params.length == 2) {
-                uuid = params[1].intern();
+                uuid = params[1];
+                uuid1 = params[1].intern();
             }
             switch (params[0]) {
                 case "list":
