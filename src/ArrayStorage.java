@@ -5,9 +5,9 @@ import javax.lang.model.type.NullType;
  */
 public class ArrayStorage {
 
-    Resume[] storage = new Resume[10000];
+    private int  sizeall=10000;
     private int  sizeof;
-
+    Resume[] storage = new Resume[sizeall];
 
     public void ArrayStorage() {
         sizeof=0;
@@ -15,7 +15,7 @@ public class ArrayStorage {
 
     public void clear() {
         sizeof=0;
-        for (int i=0;i<storage.length;i++){
+        for (int i=0;i<sizeall;i++){
             storage[i]=null;
         }
     }
@@ -32,7 +32,7 @@ public class ArrayStorage {
 
 
     public void save(Resume r) {
-        if (sizeof<=storage.length ) {
+        if (sizeof<=sizeall ) {
             int i = getPos(r);
             if (i == -1) {
                 storage[sizeof] = r;
