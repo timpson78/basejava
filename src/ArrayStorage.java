@@ -4,55 +4,81 @@ import javax.lang.model.type.NullType;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
+
     Resume[] storage = new Resume[10000];
     private int  sizeof;
 
 
-    void ArrayStorage() {
+    public void ArrayStorage() {
         sizeof=0;
     }
 
-    void clear() {
+    public void clear() {
         sizeof=0;
         for (int i=0;i<storage.length;i++){
             storage[i]=null;
         }
-
-
     }
 
-    void save(Resume r) {
-        storage[sizeof]=r;
-        sizeof=++sizeof;
-    }
-
-  Resume get(String uuid) {
-
-    for (int i=0;i<sizeof;i++){
-        if (uuid.equals(storage[i].uuid)){
-            return storage[i];
+    public void update(Resume r) {
+        int i=getPos(r);
+        if (i!=-1) {
+            storage[i]=r;
+        } else {
+            System.out.println("Элемент "+ r.uuid+" не существует");
         }
     }
 
+
+
+    public void save(Resume r) {
+        if (sizeof<=storage.length ) {
+            int i = getPos(r);
+            if (i == -1) {
+                storage[sizeof] = r;
+                sizeof = ++sizeof;
+            } else {
+                System.out.println("Элемент " + r.uuid + "существует");
+            }
+        }
+    }
+
+    public int getPos(Resume r) {
+        for (int i=0;i<sizeof;i++){
+            if (r.uuid.equals(storage[i].uuid)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
+    public Resume get(String uuid) {
+        for (int i=0;i<sizeof;i++){
+            if (uuid.equals(storage[i].uuid)){
+                return storage[i];
+            }
+        }
         return null;
     }
 
-    void delete(String uuid) {
+
+    public void delete(String uuid) {
 
         for (int i=0;i<sizeof;i++) {
             if (uuid.equals(storage[i].uuid)) {
                 storage[i]=storage[sizeof-1];
+                storage[sizeof-1]=null;
                 sizeof=--sizeof;
                 break;
             }
         }
-
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    Resume[] getAll() {
+    public Resume[] getAll() {
 
         Resume[] mass = new Resume[sizeof];
 
@@ -63,7 +89,7 @@ public class ArrayStorage {
     return mass;
     }
 
-    int size() {
+   public  int size() {
         return sizeof;
     }
 }
