@@ -5,35 +5,24 @@ import webapp.model.Resume;
 import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
+
     @Override
-    protected int getPos(String uuid) {
-         Resume searchKey= new Resume();
-         searchKey.setUuid(uuid);
-        return  Arrays.binarySearch(storage,0,sizeof,searchKey);
+    public int getPos(String uuid) {
+        Resume searchKey = new Resume();
+        searchKey.setUuid(uuid);
+        return Arrays.binarySearch(storage, 0, sizeof, searchKey);
+    }
+
+    protected void fillDeleteElement(int pos) {
+
+        System.arraycopy(storage, pos+1, storage, pos, sizeof - pos-1);
     }
 
     @Override
-    public void clear() {
-
+    protected void insertElement(int pos, Resume r) {
+        int indexPos = -pos - 1;
+        System.arraycopy(storage, indexPos, storage, indexPos + 1, sizeof - indexPos);
+        storage[indexPos] = r;
     }
 
-    @Override
-    public void update(Resume r) {
-
-    }
-
-    @Override
-    public void save(Resume r) {
-
-    }
-
-    @Override
-    public void delete(String uuid) {
-
-    }
-
-    @Override
-    public Resume[] getAll() {
-        return new Resume[0];
-    }
 }
