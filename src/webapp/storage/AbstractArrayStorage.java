@@ -22,7 +22,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public Resume get(String uuid) {
 
             int i = getPos(uuid);
-            if (i == -1) {
+            if (i <0) {
                 System.out.println("Элемент " + uuid + " не существует");
                 return null;
             } else {
@@ -46,7 +46,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void update(Resume r) {
 
         int pos = getPos(r.uuid);
-        if (pos != -1) {
+        if (pos >=0 ) {
             storage[pos] = r;
         } else {
             System.out.println("Элемент " + r.uuid + " не существует");

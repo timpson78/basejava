@@ -14,8 +14,10 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     protected void fillDeleteElement(int pos) {
-
-        System.arraycopy(storage, pos+1, storage, pos, sizeof - pos-1);
+      int numMoved=sizeof-pos-1;
+      if (numMoved>0) {
+          System.arraycopy(storage, pos + 1, storage, pos, numMoved);
+      }
     }
 
     @Override
