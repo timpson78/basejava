@@ -8,16 +8,15 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     public int getPos(String uuid) {
-        Resume searchKey = new Resume();
-        searchKey.setUuid(uuid);
+        Resume searchKey = new Resume(uuid);
         return Arrays.binarySearch(storage, 0, sizeof, searchKey);
     }
 
     protected void fillDeleteElement(int pos) {
-      int numMoved=sizeof-pos-1;
-      if (numMoved>0) {
-          System.arraycopy(storage, pos + 1, storage, pos, numMoved);
-      }
+        int numMoved = sizeof - pos - 1;
+        if (numMoved > 0) {
+            System.arraycopy(storage, pos + 1, storage, pos, numMoved);
+        }
     }
 
     @Override

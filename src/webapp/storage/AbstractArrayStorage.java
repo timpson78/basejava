@@ -4,6 +4,10 @@ package webapp.storage;
  * Array based storage for Resumes
  */
 
+import webapp.exeption.ExistStorageExeption;
+import webapp.exeption.NotExistStorageExeption;
+import webapp.exeption.StackOverFlowExeption;
+import webapp.exeption.StorageExeption;
 import webapp.model.Resume;
 
 import java.util.Arrays;
@@ -21,20 +25,17 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public Resume get(String uuid) {
 
-            int i = getPos(uuid);
-            if (i <0) {
-                System.out.println("Элемент " + uuid + " не существует");
-                return null;
-            } else {
-                return storage[i];
-            }
+        int i = getPos(uuid);
+        if (i < 0) {
+            throw new NotExistStorageExeption(uuid); //System.out.println("Элемент " + uuid + " не существует");
+            // return null;
+        } else {
+            return storage[i];
+        }
     }
 
 
 
-    public void ArrayStorage() {
-        sizeof = 0;
-    }
 
     public void clear() {
 
@@ -45,24 +46,26 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public void update(Resume r) {
 
-        int pos = getPos(r.uuid);
-        if (pos >=0 ) {
+        int pos = getPos(r.getUuid());
+        if (pos >= 0) {
             storage[pos] = r;
         } else {
-            System.out.println("Элемент " + r.uuid + " не существует");
+            throw new NotExistStorageExeption(r.getUuid());// System.out.println("Элемент " + r.uuid + " не существует");
         }
     }
 
 
     public void save(Resume r) {
-        if (sizeof <= STORAGE_LIMIT) {
-            int pos = getPos(r.uuid);
+        if (sizeof < STORAGE_LIMIT) {
+            int pos = getPos(r.getUuid());
             if (pos < 0) {
-                insertElement(pos,r);
+                insertElement(pos, r);
                 sizeof++;
             } else {
-                System.out.println("Элемент " + r.uuid + "существует");
+                throw new ExistStorageExeption(r.getUuid());//  System.out.println("Элемент " + r.uuid + "существует");
             }
+        } else {
+            throw new StackOverFlowExeption();
         }
     }
 
@@ -70,15 +73,14 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
 
         int pos = getPos(uuid);
-        if (pos >=0) {
-                fillDeleteElement(pos);
-                storage[sizeof - 1] = null;
-                sizeof--;
-            } else {
-            System.out.println("Элемент " + uuid + "не существует");
+        if (pos >= 0) {
+            fillDeleteElement(pos);
+            storage[sizeof - 1] = null;
+            sizeof--;
+        } else {
+            throw new NotExistStorageExeption(uuid);//System.out.println("Элемент " + uuid + "не существует");
         }
     }
-
 
 
     /**
@@ -93,9 +95,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     protected abstract void fillDeleteElement(int pos);
 
-    protected abstract void insertElement(int pos,Resume r);
-
-
+    protected abstract void insertElement(int pos, Resume r);
 
 
 }

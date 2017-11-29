@@ -13,7 +13,7 @@ import webapp.storage.ArrayStorage;
 import webapp.storage.Storage;
 
 
-public class MainArray {
+/*public class MainArray {
     private final static Storage ARRAY_STORAGE = new ArrayStorage();
 
     public static void main(String[] args) throws IOException {
@@ -42,7 +42,7 @@ public class MainArray {
                     System.out.println(ARRAY_STORAGE.size());
                     break;
                 case "save":
-                    r = new Resume();
+                    r = new Resume(uuid);
                     r.uuid = uuid;
                     ARRAY_STORAGE.save(r);
                     printAll();
@@ -80,3 +80,4 @@ public class MainArray {
         System.out.println("----------------------------");
     }
 }
+*/

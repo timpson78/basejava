@@ -15,7 +15,7 @@ public class ArrayStorage extends AbstractArrayStorage {
     protected int getPos(String uuid) {
 
         for (int i = 0; i < sizeof; i++) {
-            if (uuid.equals(storage[i].uuid)) {
+            if (uuid.equals(storage[i].getUuid())) {
                 return i;
             }
         }
@@ -26,7 +26,7 @@ public class ArrayStorage extends AbstractArrayStorage {
         storage[sizeof] = r;
     }
 
-    protected  void fillDeleteElement(int pos){
+    protected void fillDeleteElement(int pos) {
         storage[pos] = storage[sizeof - 1];
     }
 }

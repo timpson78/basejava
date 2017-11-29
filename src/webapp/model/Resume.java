@@ -3,10 +3,20 @@
  */
 package webapp.model;
 
+import java.util.UUID;
+
 public class Resume implements Comparable<Resume> {
 
     // Unique identifier
-    public String uuid;
+    private final String uuid;
+
+    public Resume() {
+        this(UUID.randomUUID().toString());
+    }
+
+    public Resume(String uuid) {
+        this.uuid = uuid;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -18,6 +28,10 @@ public class Resume implements Comparable<Resume> {
         return uuid.equals(resume.uuid);
     }
 
+
+    public String getUuid() {
+        return uuid;
+    }
 
     @Override
     public int hashCode() {
@@ -31,9 +45,7 @@ public class Resume implements Comparable<Resume> {
 
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
+
 
     @Override
     public int compareTo(Resume o) {
