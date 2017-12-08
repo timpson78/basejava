@@ -5,12 +5,10 @@
 import webapp.exeption.NotExistStorageExeption;
 import webapp.exeption.StorageExeption;
 import webapp.model.Resume;
-import webapp.storage.ArrayStorage;
-import webapp.storage.SortedArrayStorage;
-import webapp.storage.Storage;
+import webapp.storage.*;
 
 public class MainTestArrayStorage {
-    static final Storage ARRAY_STORAGE = new ArrayStorage();
+    static final Storage ARRAY_STORAGE = new ListStorage();
     static final Storage SORTED_ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) {

@@ -17,9 +17,9 @@ public class MainReflection {
 
         try {
             // r.getClass().getMethod("toString", null).invoke(r.getClass().newInstance(), null)
-            Class myClass = r.getClass();
+            Class<? extends Resume> myClass = r.getClass();
             Object  objectNew = myClass.getMethod("toString", null).invoke(r, null);
-            System.out.println( (String)objectNew);
+            System.out.println( objectNew);
         } catch (Exception e) {
 
             System.out.println("Ooops...");

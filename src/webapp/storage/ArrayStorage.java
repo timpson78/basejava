@@ -11,8 +11,7 @@ import java.util.Arrays;
 
 public class ArrayStorage extends AbstractArrayStorage {
 
-
-    protected int getPos(String uuid) {
+    protected Integer getSearchKey(String uuid) {
 
         for (int i = 0; i < sizeof; i++) {
             if (uuid.equals(storage[i].getUuid())) {
