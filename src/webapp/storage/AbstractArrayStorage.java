@@ -4,13 +4,11 @@ package webapp.storage;
  * Array based storage for Resumes
  */
 
-import webapp.exeption.ExistStorageExeption;
-import webapp.exeption.NotExistStorageExeption;
 import webapp.exeption.StackOverFlowExeption;
-import webapp.exeption.StorageExeption;
 import webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
 
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
@@ -24,8 +22,16 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     protected abstract Integer getSearchKey(String uuid);
+
     protected abstract void fillDeleteElement(int pos);
+
     protected abstract void insertElement(int pos, Resume r);
+
+    protected List<Resume> doCopyStorage() {
+        Resume[] tmpStorage = Arrays.copyOfRange(storage, 0, sizeof);
+        return Arrays.asList(tmpStorage);
+    }
+
 
     protected void doDelete(Object index) {
         fillDeleteElement((Integer) index);
@@ -71,10 +77,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     }
 
+    ;
 
-    public Resume[] getAll() {
-
-        return Arrays.copyOfRange(storage, 0, sizeof);
-    }
 
 }

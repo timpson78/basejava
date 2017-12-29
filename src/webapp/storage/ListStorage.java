@@ -1,17 +1,13 @@
 package webapp.storage;
 
-import webapp.exeption.StackOverFlowExeption;
 import webapp.model.Resume;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
 
-    protected ArrayList<Resume> storageLst = new ArrayList<>();
+    protected List<Resume> storageLst = new ArrayList<>();
 
 
     @Override
@@ -51,14 +47,15 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
+    protected List<Resume> doCopyStorage() {
+        return new ArrayList(storageLst);
+    }
+
+    @Override
     public void clear() {
         storageLst.clear();
     }
 
-    @Override
-    public Resume[] getAll() {
-        return  storageLst.toArray(new Resume[storageLst.size()]);
-    }
 
     @Override
     public int size() {

@@ -6,8 +6,6 @@ package webapp.storage;
 
 import webapp.model.Resume;
 
-import java.util.Arrays;
-
 
 public class ArrayStorage extends AbstractArrayStorage {
 
@@ -20,6 +18,7 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
         return -1;
     }
+
 
     protected void insertElement(int pos, Resume r) {
         storage[sizeof] = r;

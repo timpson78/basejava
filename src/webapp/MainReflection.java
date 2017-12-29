@@ -4,11 +4,10 @@ package webapp;
 import webapp.model.Resume;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 
 public class MainReflection {
     public static void main(String[] args) throws IllegalAccessException, NoSuchMethodException {
-        Resume r = new Resume();
+        Resume r = new Resume("А");
         Field field = r.getClass().getDeclaredFields()[0];
         System.out.println(field);
         field.setAccessible(true);

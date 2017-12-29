@@ -2,10 +2,10 @@ package webapp.storage;
 
 import webapp.exeption.ExistStorageExeption;
 import webapp.exeption.NotExistStorageExeption;
-import webapp.exeption.StackOverFlowExeption;
 import webapp.model.Resume;
 
-import static webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class AbstractStorage implements Storage {
 
@@ -21,6 +21,9 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract Resume doGet(Object searchKey);
 
+    protected abstract List<Resume> doCopyStorage();
+
+
     public Resume get(String uuid) {
 
         Object searchKey = getSearchKey(uuid);
@@ -28,7 +31,7 @@ public abstract class AbstractStorage implements Storage {
             throw new NotExistStorageExeption(uuid);
             // return null;
         } else {
-           return doGet(searchKey);
+            return doGet(searchKey);
         }
     }
 
@@ -59,11 +62,16 @@ public abstract class AbstractStorage implements Storage {
         if (isExist(searchKey)) {
             doDelete(searchKey);
         } else {
-            throw new NotExistStorageExeption(uuid);//System.out.println("Элемент " + uuid + "не существует");
+            throw new NotExistStorageExeption(uuid);
         }
     }
 
 
+    public List<Resume> getAllSorted() {
+        List<Resume> resumeList = doCopyStorage();
+        Collections.sort(resumeList);
+        return resumeList;
+    }
 
 
     /**

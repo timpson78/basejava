@@ -2,11 +2,12 @@ package webapp.storage;
 
 import webapp.model.Resume;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-public class MapStorage extends AbstractStorage {
+public class MapUuidStorage extends AbstractStorage {
 
     private Map<String, Resume> storageMap = new HashMap<>();
 
@@ -46,20 +47,15 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
+    protected List<Resume> doCopyStorage() {
+        return new ArrayList<Resume>(storageMap.values());
+    }
+
+    @Override
     public void clear() {
         storageMap.clear();
     }
 
-    @Override
-    public Resume[] getAll() {
-        Resume[] resumeArray = new Resume[storageMap.size()];
-        int i = 0;
-        for (Map.Entry<String, Resume> entry : storageMap.entrySet()) {
-            resumeArray[i] = entry.getValue();
-            i++;
-        }
-        return resumeArray;
-    }
 
     @Override
     public int size() {
