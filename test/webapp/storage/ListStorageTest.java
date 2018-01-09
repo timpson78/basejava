@@ -8,8 +8,4 @@ public class ListStorageTest extends AbstractStorageTest{
         super(new ListStorage());
     }
 
-    @Test
-    public void getStackOverflow() throws Exception {
-
-    }
 }

@@ -11,6 +11,7 @@ import webapp.model.Resume;
 import java.util.List;
 
 public abstract class AbstractStorageTest {
+
     protected Storage storage;
     private static final String UUID[] = {"uuid1", "uuid2", "uuid3"};
 
@@ -23,7 +24,7 @@ public abstract class AbstractStorageTest {
     public void setUp() throws Exception {
         storage.clear();
         for (String aUUID : UUID) {
-            storage.save(new Resume(aUUID, aUUID));
+            storage.save(new Resume(aUUID, aUUID+"_fullname"));
         }
     }
 
@@ -39,29 +40,46 @@ public abstract class AbstractStorageTest {
         }
     }
 
+    @Test(expected = NotExistStorageExeption.class)
+    public void getNotExist() throws Exception {
+        storage.get("uuid_Not_Exist");
+    }
+
+    @Test(expected = NotExistStorageExeption.class)
+    public void updateNotExist() throws Exception {
+        storage.update(new Resume("uuid_Not_Exist", "Empty"));//get NotExistStorageExeption
+    }
+
+    @Test(expected = NotExistStorageExeption.class)
+    public void deleteNotExist() throws Exception {
+        storage.delete("uuid_Not_Exist");
+    }
+
+
+    @Test(expected = ExistStorageExeption.class)
+    public void saveExistTest() throws Exception {
+        storage.save(new Resume(UUID[0], "Empty")); //get ExistStorageExeption
+    }
+
     @Test
     public void clear() throws Exception {
         storage.clear();
         Assert.assertEquals(0, storage.size());
     }
 
-    @Test(expected = NotExistStorageExeption.class)
+    @Test
     public void update() throws Exception {
-        storage.get("uuid_Not_Exist");
-        Resume resumeForUpdate = new Resume(UUID[0]);
+        Resume resumeForUpdate = new Resume(UUID[0], UUID[0]);
         storage.update(resumeForUpdate);
         Assert.assertTrue(resumeForUpdate == storage.get(resumeForUpdate.getUuid()));
-        storage.update(new Resume("uuid_Not_exist"));//get NotExistStorageExeption
-        storage.delete("uuid_Not_Exist");
     }
 
-    @Test(expected = ExistStorageExeption.class)
+    @Test
     public void save() throws Exception {
-        Resume storageNew = new Resume("uuid4", "Empty");
+        Resume storageNew = new Resume("uuid4", "uuid4_fullname");
         storage.save(storageNew);
         Assert.assertEquals(4, storage.size());
         Assert.assertEquals(storageNew.getUuid(), storage.get("uuid4").getUuid());
-        storage.save(new Resume(UUID[0], "Empty")); //get ExistStorageExeption
     }
 
     @Test

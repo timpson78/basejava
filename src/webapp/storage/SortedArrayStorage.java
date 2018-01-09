@@ -9,16 +9,20 @@ import java.util.List;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
 
-    private static final class ResumeComparator implements Comparator<Resume> {
+   /* private static final class ResumeComparator implements Comparator<Resume> {
         public int compare(Resume r1, Resume r2) {
             return r1.getUuid().compareTo(r2.getUuid());
         }
-    }
+    }*/
 
+    //private static final Comparator<Resume> RESUME_COMPARATOR = (o1, o2) -> o1.getUuid().compareTo(o2.getUuid());
+    // private static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getUuid,( o1, o2) -> o1.compareTo(o2));
+    private static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getUuid);
     @Override
     public Integer getSearchKey(String uuid) {
         Resume searchKey = new Resume(uuid, "empty");
-        return Arrays.binarySearch(storage, 0, sizeof, searchKey, new ResumeComparator());
+        return Arrays.binarySearch(storage, 0, sizeof, searchKey, RESUME_COMPARATOR );
+
     }
 
     @Override
