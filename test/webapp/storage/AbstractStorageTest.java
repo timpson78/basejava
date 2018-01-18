@@ -24,7 +24,7 @@ public abstract class AbstractStorageTest {
     public void setUp() throws Exception {
         storage.clear();
         for (String aUUID : UUID) {
-            storage.save(new Resume(aUUID, aUUID+"_fullname"));
+            storage.save(new Resume(aUUID, aUUID + "_fullname"));
         }
     }
 

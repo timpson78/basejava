@@ -5,7 +5,7 @@ import webapp.model.Resume;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListStorage extends AbstractStorage {
+public class ListStorage extends AbstractStorage<Integer> {
 
     protected List<Resume> storageLst = new ArrayList<>();
 
@@ -22,28 +22,28 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doDelete(Object index) {
+    protected void doDelete(Integer index) {
         storageLst.remove((int) index);
     }
 
     @Override
-    protected boolean isExist(Object index) {
-        return (Integer) index != null;
+    protected boolean isExist(Integer index) {
+        return  index != null;
     }
 
     @Override
-    protected void doUpdate(Resume r, Object index) {
+    protected void doUpdate(Resume r, Integer index) {
         storageLst.set((Integer) index, r);
     }
 
     @Override
-    protected void doSave(Resume r, Object index) {
+    protected void doSave(Resume r, Integer index) {
         storageLst.add(r);
     }
 
     @Override
-    protected Resume doGet(Object index) {
-        return storageLst.get((Integer) index);
+    protected Resume doGet(Integer index) {
+        return storageLst.get(index);
     }
 
     @Override

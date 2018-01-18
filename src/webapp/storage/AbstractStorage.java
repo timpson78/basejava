@@ -6,27 +6,31 @@ import webapp.model.Resume;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
-public abstract class AbstractStorage implements Storage {
+public abstract class AbstractStorage<SK> implements Storage {
 
-    protected abstract Object getSearchKey(String uuid);
+    //protected final Logger LOG =Logger.getLogger(getClass().getName());
+    private static final Logger LOG=Logger.getLogger(AbstractStorage.class.getName());
 
-    protected abstract void doDelete(Object searchKey);
+    protected abstract SK getSearchKey(String uuid);
 
-    protected abstract boolean isExist(Object searchKey);
+    protected abstract void doDelete(SK searchKey);
 
-    protected abstract void doUpdate(Resume r, Object searchKey);
+    protected abstract boolean isExist(SK searchKey);
 
-    protected abstract void doSave(Resume r, Object searchKey);
+    protected abstract void doUpdate(Resume r, SK searchKey);
 
-    protected abstract Resume doGet(Object searchKey);
+    protected abstract void doSave(Resume r, SK searchKey);
+
+    protected abstract Resume doGet(SK searchKey);
 
     protected abstract List<Resume> doCopyStorage();
 
 
     public Resume get(String uuid) {
-
-        Object searchKey = getSearchKey(uuid);
+        LOG.info("Get "+uuid);
+        SK searchKey = getSearchKey(uuid);
         if (!isExist(searchKey)) {
             throw new NotExistStorageExeption(uuid);
             // return null;
@@ -36,7 +40,8 @@ public abstract class AbstractStorage implements Storage {
     }
 
     public void update(Resume r) {
-        Object searchKey = getSearchKey(r.getUuid());
+        LOG.info("Update "+r);
+        SK searchKey = getSearchKey(r.getUuid());
         if (isExist(searchKey)) {
             doUpdate(r, searchKey);
         } else {
@@ -46,9 +51,10 @@ public abstract class AbstractStorage implements Storage {
 
 
     public void save(Resume r) {
-
-        Object searchKey = getSearchKey(r.getUuid());// int pos = getPos(r.getUuid());
+        LOG.info("Save "+r);
+        SK searchKey = getSearchKey(r.getUuid());// int pos = getPos(r.getUuid());
         if (isExist(searchKey)) {
+            LOG.warning(" Element " + r.getUuid() + " is exist");
             throw new ExistStorageExeption(r.getUuid());
         } else {
             doSave(r, searchKey);
@@ -58,10 +64,13 @@ public abstract class AbstractStorage implements Storage {
 
     public void delete(String uuid) {
 
-        Object searchKey = getSearchKey(uuid);
+        LOG.info("Delete "+uuid);
+
+        SK searchKey = getSearchKey(uuid);
         if (isExist(searchKey)) {
             doDelete(searchKey);
         } else {
+            LOG.warning(" Element " + uuid + " does not exist");
             throw new NotExistStorageExeption(uuid);
         }
     }
