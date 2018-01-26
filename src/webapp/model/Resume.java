@@ -27,6 +27,7 @@ public class Resume implements Comparable<Resume> {
         Objects.requireNonNull(fullName, "fullname must not be null");
         this.uuid = uuid;
         this.fullName = fullName;
+
     }
 
 
@@ -36,6 +37,15 @@ public class Resume implements Comparable<Resume> {
 
     public Section getSections(SectionType snType) {
         return sections.get(snType);
+    }
+
+
+    public void addContacts(ContactType cType, String cValue) {
+        contacts.put(cType, cValue);
+    }
+
+    public void addSections(SectionType sType, Section SectionObjects) {
+        sections.put(sType, SectionObjects);
     }
 
     @Override

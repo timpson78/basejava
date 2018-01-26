@@ -1,6 +1,7 @@
 package webapp.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,6 +13,10 @@ public class ListSection extends Section {
     public ListSection(List<String> listSection) {
         Objects.requireNonNull(listSection, "Lists's section must be not NULL");
         this.listSection = listSection;
+    }
+
+    public ListSection(String... listSection) {
+        this.listSection = Arrays.asList(listSection);
     }
 
     public List<String> getListSection() {
