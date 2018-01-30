@@ -17,8 +17,9 @@ public class Organization {
     }
 
     public Organization(String linkName, String urlName, Position... positions) {
-        this.orgLink = new Link(linkName, urlName);
-        this.positions = Arrays.asList(positions);
+        /*this.orgLink = new Link(linkName, urlName);
+        this.positions = Arrays.asList(positions);*/
+        this(new Link(linkName, urlName), Arrays.asList(positions));
     }
 
 

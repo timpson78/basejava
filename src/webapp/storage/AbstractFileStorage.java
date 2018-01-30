@@ -5,6 +5,7 @@ import webapp.model.Resume;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,6 +20,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         if (!directory.canRead() || !directory.canWrite()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + "is not readble/writable");
         }
+        this.directory = directory;
     }
 
     @Override
@@ -28,8 +30,8 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void doDelete(File file) {
-        if (!file.delete()){
-            throw new StorageExeption("file delete error",file.getName());
+        if (!file.delete()) {
+            throw new StorageExeption("file delete error", file.getName());
         }
     }
 
@@ -57,9 +59,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         }
     }
 
-    protected abstract void doWrite(Resume r, File file) throws IOException ;
+    protected abstract void doWrite(Resume r, File file) throws IOException;
 
-    protected abstract Resume doRead(File file) throws IOException ;
+    protected abstract Resume doRead(File file) throws IOException;
 
 
     @Override
@@ -74,25 +76,35 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> doCopyStorage() {
-        return null;
+        File[] listfiles = directory.listFiles();
+        List<Resume> resumeList = new ArrayList<>();
+        if (listfiles != null) {
+            for (File resumefile : listfiles) {
+                resumeList.add(doGet(resumefile));
+            }
+        } else {
+            throw new StorageExeption("Read error", null);
+        }
+        return resumeList;
     }
+
 
     @Override
     public void clear() {
-      File[] listfiles=directory.listFiles();
-      if (listfiles!=null) {
-          for (File resumefile : listfiles) {
+        File[] listfiles = directory.listFiles();
+        if (listfiles != null) {
+            for (File resumefile : listfiles) {
                 doDelete(resumefile);
-          }
-      }
+            }
+        }
 
     }
 
     @Override
     public int size() {
-        String[] listfiles=directory.list();
-        if (listfiles==null){
-            new StorageExeption("files read error",null);
+        String[] listfiles = directory.list();
+        if (listfiles == null) {
+            throw new StorageExeption("files read error", null);
         }
         return listfiles.length;
     }
