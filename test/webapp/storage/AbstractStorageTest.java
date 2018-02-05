@@ -8,6 +8,7 @@ import webapp.exeption.ExistStorageExeption;
 import webapp.exeption.NotExistStorageExeption;
 import webapp.model.*;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +19,7 @@ import static javafx.scene.input.KeyCode.R;
 public abstract class AbstractStorageTest {
 
     protected Storage storage;
+    protected static final File STORAGE_DIR=new File ("E:\\java\\resume\\basejava\\storage");
 
     private static final String  UUID1="uuid1";
     private static final String  UUID2="uuid2";
@@ -118,7 +120,7 @@ public abstract class AbstractStorageTest {
     public void update() throws Exception {
         Resume resumeForUpdate = new Resume(UUID1, UUID1);
         storage.update(resumeForUpdate);
-        Assert.assertTrue(resumeForUpdate == storage.get(resumeForUpdate.getUuid()));
+        Assert.assertTrue(resumeForUpdate.equals(storage.get(resumeForUpdate.getUuid())));
     }
 
     @Test

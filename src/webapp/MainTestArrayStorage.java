@@ -5,10 +5,14 @@ package webapp; /**
 import webapp.exeption.NotExistStorageExeption;
 import webapp.model.Resume;
 import webapp.storage.*;
+import webapp.storage.StrategyPattern.ObjectStreamSerializator;
+
+import java.io.File;
 
 public class MainTestArrayStorage {
-    static final Storage ARRAY_STORAGE = new MapResumeStorage();
-    static final Storage SORTED_ARRAY_STORAGE = new SortedArrayStorage();
+    protected static final File STORAGE_DIR=new File ("E:\\java\\resume\\basejava\\storage");
+    static final Storage ARRAY_STORAGE = new FileStorage(STORAGE_DIR, new ObjectStreamSerializator());
+   static final Storage SORTED_ARRAY_STORAGE = new PathStorage(STORAGE_DIR.getAbsolutePath(), new ObjectStreamSerializator());
 
     public static void main(String[] args) {
         Resume r1 = new Resume("Б");
@@ -24,14 +28,13 @@ public class MainTestArrayStorage {
         Resume r6 = new Resume("Е");
 
 
-
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r2);
         ARRAY_STORAGE.save(r3);
 
-        SORTED_ARRAY_STORAGE.save(r2);
-        SORTED_ARRAY_STORAGE.save(r1);
-        SORTED_ARRAY_STORAGE.save(r3);
+         //SORTED_ARRAY_STORAGE.save(r2);
+        // SORTED_ARRAY_STORAGE.save(r1);
+        // SORTED_ARRAY_STORAGE.save(r3);
         SORTED_ARRAY_STORAGE.save(r4);
         SORTED_ARRAY_STORAGE.save(r5);
         SORTED_ARRAY_STORAGE.save(r6);
@@ -39,7 +42,6 @@ public class MainTestArrayStorage {
 
         System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.getUuid()));
         System.out.println("Size: " + ARRAY_STORAGE.size());
-
 
         try {
             System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
@@ -49,7 +51,7 @@ public class MainTestArrayStorage {
         }
 
         printAll();
-        ARRAY_STORAGE.delete(r2.getUuid());
+       /* ARRAY_STORAGE.delete(r2.getUuid());
 
         SORTED_ARRAY_STORAGE.delete(r2.getUuid());
 
@@ -60,7 +62,7 @@ public class MainTestArrayStorage {
 
         System.out.println("Size: " + ARRAY_STORAGE.size());
 
-        StringBuffer sb = new StringBuffer();
+        StringBuffer sb = new StringBuffer();*/
     }
 
     static void printAll() {

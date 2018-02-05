@@ -2,18 +2,21 @@ package webapp.storage;
 
 import webapp.exeption.StorageExeption;
 import webapp.model.Resume;
+import webapp.storage.StrategyPattern.FilePathSerialization;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
+public class FileStorage extends AbstractStorage<File> {
     private File directory;
+    private FilePathSerialization fpSerialization;
 
-    public AbstractFileStorage(File directory) {
+    public FileStorage(File directory, FilePathSerialization fpSerialization) {
         Objects.requireNonNull(directory, "directory must not be null");
+        Objects.requireNonNull(fpSerialization, "fpSerialization must not be null");
+        this.fpSerialization = fpSerialization;
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory ");
         }
@@ -43,7 +46,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void doUpdate(Resume r, File file) {
         try {
-            doWrite(r, file);
+            fpSerialization.doWrite(r, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
             throw new StorageExeption("Save file for Update error", file.getName(), e);
         }
@@ -53,21 +56,17 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected void doSave(Resume r, File file) {
         try {
             file.createNewFile();
-            doWrite(r, file);
+            fpSerialization.doWrite(r, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
             throw new StorageExeption("Save file error", file.getName(), e);
         }
     }
 
-    protected abstract void doWrite(Resume r, File file) throws IOException;
-
-    protected abstract Resume doRead(File file) throws IOException;
-
 
     @Override
     protected Resume doGet(File file) {
         try {
-            return doRead(file);
+            return fpSerialization.doRead(new BufferedInputStream(new FileInputStream(file)));
 
         } catch (IOException e) {
             throw new StorageExeption("File read error", file.getName(), e);
