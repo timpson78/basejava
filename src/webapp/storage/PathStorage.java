@@ -28,7 +28,8 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected Path getSearchKey(String filename) {
-        return Paths.get(directory.toString() + "\\" + filename);
+       // return Paths.get (directory.toString() + "\\" + filename);
+        return directory.resolve(directory.toAbsolutePath().toString() + "\\" + filename);
     }
 
     @Override
@@ -44,7 +45,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected boolean isExist(Path path) {
-        return Files.exists(path);
+        return Files.exists(path.toAbsolutePath());
     }
 
     @Override
