@@ -10,11 +10,8 @@ import webapp.model.*;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static javafx.scene.input.KeyCode.R;
 
 public abstract class AbstractStorageTest {
 
@@ -36,15 +33,15 @@ public abstract class AbstractStorageTest {
        R3 = new Resume(UUID3, "FullName3");
 
 
-       R1.addContacts(ContactType.EMAIL,"FullName1@mail.ru");
-       R1.addContacts(ContactType.PHONE,"+7-918-111-11-11");
-       R1.addContacts(ContactType.WEBSITE,"http://www.UUID1.ru");
-       R1.addContacts(ContactType.SKYPE,"UUID1_SKYPE");
-       R1.addSections(SectionType.PERSONAL,new TextSection("Personal information: I realy intelligent and creative person"));
-       R1.addSections(SectionType.OBJECTIVE,new TextSection("Objective: To be honerst, i want to find a great job where I can do anything what i want"));
-       R1.addSections(SectionType.ACHIEVEMENT, new ListSection("took part in the hard project","implemeted java anywhere","satistfied everybody"));
-       R1.addSections(SectionType.QUALIFICATIONS,new ListSection("really great","best of the best","never give up") );
-       R1.addSections(SectionType.EXPERIENCE, new OrganizationSection(
+       R1.addContact(ContactType.EMAIL,"FullName1@mail.ru");
+       R1.addContact(ContactType.PHONE,"+7-918-111-11-11");
+       R1.addContact(ContactType.WEBSITE,"http://www.UUID1.ru");
+       R1.addContact(ContactType.SKYPE,"UUID1_SKYPE");
+       R1.addSection(SectionType.PERSONAL,new TextSection("Personal information: I realy intelligent and creative person"));
+       R1.addSection(SectionType.OBJECTIVE,new TextSection("Objective: To be honerst, i want to find a great job where I can do anything what i want"));
+       R1.addSection(SectionType.ACHIEVEMENT, new ListSection("took part in the hard project","implemeted java anywhere","satistfied everybody"));
+       R1.addSection(SectionType.QUALIFICATIONS,new ListSection("really great","best of the best","never give up") );
+       R1.addSection(SectionType.EXPERIENCE, new OrganizationSection(
                new Organization("the best work place","http://the bestplace.ru",
                     new Organization.Position( LocalDate.of(2001,01,12), LocalDate.of(2003,02,26),"developer","coding"),
                     new Organization.Position( LocalDate.of(2003,01,12), LocalDate.of(2005,02,26),"developer2","coding2")),
@@ -52,16 +49,16 @@ public abstract class AbstractStorageTest {
                        new Organization.Position( LocalDate.of(2007,01,12), LocalDate.of(2010,02,26),"developer","coding"))
        ));
 
-        R1.addSections(SectionType.EDUCATION, new OrganizationSection(
+        R1.addSection(SectionType.EDUCATION, new OrganizationSection(
                 new Organization("The best Institute in the world","http://the bestEducation.ru",
                         new Organization.Position( LocalDate.of(1996,01,12), LocalDate.of(2001,02,26),"Engineer","coding")),
                 new Organization("The best School in the world","http://the bestSchool.ru",
                         new Organization.Position( LocalDate.of(2001,01,12), LocalDate.of(2003,02,26),"developer","coding"))
         ));
-       R2.addContacts(ContactType.EMAIL,"FullName2@mail.ru");
-       R2.addContacts(ContactType.PHONE,"+7-918-222-22-22");
-       R2.addContacts(ContactType.WEBSITE,"http://www.UUID2.ru");
-       R2.addContacts(ContactType.SKYPE,"UUID2_SKYPE");
+       R2.addContact(ContactType.EMAIL,"FullName2@mail.ru");
+       R2.addContact(ContactType.PHONE,"+7-918-222-22-22");
+       R2.addContact(ContactType.WEBSITE,"http://www.UUID2.ru");
+       R2.addContact(ContactType.SKYPE,"UUID2_SKYPE");
     }
 
 

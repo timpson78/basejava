@@ -7,8 +7,10 @@ import java.util.Objects;
 
 public class ListSection extends Section {
     private static final long serialVersionUID=1L;
-    private final List<String> listSection;
+    private  List<String> listSection;
 
+    public ListSection() {
+    }
 
     public ListSection(List<String> listSection) {
         Objects.requireNonNull(listSection, "Lists's section must be not NULL");

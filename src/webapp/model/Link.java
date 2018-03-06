@@ -1,11 +1,17 @@
 package webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Link implements Serializable {
-    private final String linkName;
-    private final String urlName;
+    private  String linkName;
+    private  String urlName;
+
+    public Link() {
+    }
 
     public Link(String linkName, String urlName) {
         Objects.requireNonNull(linkName, "Link's name must not be NULL");

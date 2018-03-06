@@ -3,21 +3,28 @@
  */
 package webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Resume implements Comparable<Resume>, Serializable {
 
     private static final long serialVersionUID=1L;
-    private final String uuid;
-    private final String fullName;
+    private  String uuid;
+    private  String fullName;
 
     public Map<ContactType, String> contacts = new EnumMap<ContactType, String>(ContactType.class);
     public Map<SectionType, Section> sections = new EnumMap<SectionType, Section>(SectionType.class);
 
+    public Resume() {
+    }
 
     public Resume(String fullname) {
         this(UUID.randomUUID().toString(), fullname);
@@ -31,40 +38,44 @@ public class Resume implements Comparable<Resume>, Serializable {
 
     }
 
+    public Map<ContactType, String> getContacts() {
+        return contacts;
+    }
+    public Map<SectionType, Section> getSections() {
+        return sections;
+    }
 
-    public String getContacts(ContactType cnType) {
+    public String getContact(ContactType cnType) {
         return contacts.get(cnType);
     }
 
-    public Section getSections(SectionType snType) {
+    public Section getSection(SectionType snType) {
         return sections.get(snType);
     }
 
 
-    public void addContacts(ContactType cType, String cValue) {
+    public void addContact(ContactType cType, String cValue) {
         contacts.put(cType, cValue);
     }
 
-    public void addSections(SectionType sType, Section SectionObjects) {
+    public void addSection(SectionType sType, Section SectionObjects) {
         sections.put(sType, SectionObjects);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (!(o instanceof Resume)) return false;
         Resume resume = (Resume) o;
-
-        if (!uuid.equals(resume.uuid)) return false;
-        return fullName.equals(resume.fullName);
+        return Objects.equals(uuid, resume.uuid) &&
+                Objects.equals(fullName, resume.fullName) &&
+                Objects.equals(contacts, resume.contacts) &&
+                Objects.equals(sections, resume.sections);
     }
 
     @Override
     public int hashCode() {
-        int result = uuid.hashCode();
-        result = 31 * result + fullName.hashCode();
-        return result;
+        return Objects.hash(uuid, fullName, contacts, sections);
     }
 
     public String getUuid() {
