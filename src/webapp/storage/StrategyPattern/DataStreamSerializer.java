@@ -69,7 +69,8 @@ public class DataStreamSerializer implements StreamSerializer {
 
             int sectionSize = dis.readInt();
             for (int i = 0; i < sectionSize; i++) {
-                resume.addSection(SectionType.valueOf(dis.readUTF()), readSection(dis, SectionType.valueOf(dis.readUTF())));
+                SectionType sType = SectionType.valueOf(dis.readUTF());
+                resume.addSection(sType, readSection(dis, sType));
             }
             return resume;
         }
@@ -81,23 +82,15 @@ public class DataStreamSerializer implements StreamSerializer {
         List<Organization> orgList;
         switch (sectionType) {
             case PERSONAL:
-                section = new TextSection(dis.readUTF());
-                break;
             case OBJECTIVE:
                 section = new TextSection(dis.readUTF());
                 break;
             case ACHIEVEMENT:
-                listSection = getListString(dis);
-                section = new ListSection(listSection);
-                break;
             case QUALIFICATIONS:
                 listSection = getListString(dis);
                 section = new ListSection(listSection);
                 break;
             case EXPERIENCE:
-                orgList = getListOrganization(dis);
-                section = new OrganizationSection(orgList);
-                break;
             case EDUCATION:
                 orgList = getListOrganization(dis);
                 section = new OrganizationSection(orgList);
@@ -168,8 +161,6 @@ public class DataStreamSerializer implements StreamSerializer {
             }
         }
     }
-
-
 }
 
 
