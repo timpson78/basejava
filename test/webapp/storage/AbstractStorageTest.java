@@ -42,7 +42,7 @@ public abstract class AbstractStorageTest {
        R1.addSection(SectionType.ACHIEVEMENT, new ListSection("took part in the hard project","implemeted java anywhere","satistfied everybody"));
        R1.addSection(SectionType.QUALIFICATIONS,new ListSection("really great","best of the best","never give up") );
        R1.addSection(SectionType.EXPERIENCE, new OrganizationSection(
-               new Organization("the best work place","http://the bestplace.ru",
+               new Organization("the best work place","",
                     new Organization.Position( LocalDate.of(2001,01,12), LocalDate.of(2003,02,26),"developer","coding"),
                     new Organization.Position( LocalDate.of(2003,01,12), LocalDate.of(2005,02,26),"developer2","coding2")),
                new Organization("the best work place","http://the bestplace.ru",

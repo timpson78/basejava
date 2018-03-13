@@ -22,13 +22,13 @@ public class Organization implements Serializable {
     }
 
     public Organization(Link orgLink, List<Position> positions) {
+        Objects.requireNonNull(orgLink.getLinkName());
+        Objects.requireNonNull(orgLink.getUrlName());
         this.orgLink = orgLink;
         this.positions = positions;
     }
 
     public Organization(String linkName, String urlName, Position... positions) {
-        /*this.orgLink = new Link(linkName, urlName);
-        this.positions = Arrays.asList(positions);*/
         this(new Link(linkName, urlName), Arrays.asList(positions));
     }
 
@@ -84,6 +84,7 @@ public class Organization implements Serializable {
             Objects.requireNonNull(startDate, "startDate must not be NULL");
             Objects.requireNonNull(endDate, "endDate must not be NULL");
             Objects.requireNonNull(title, "NameOrg must not be NULL");
+            Objects.requireNonNull(description, "NameOrg must not be NULL");
             this.startDate = startDate;
             this.endDate = endDate;
             this.title = title;
