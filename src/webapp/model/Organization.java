@@ -22,8 +22,10 @@ public class Organization implements Serializable {
     }
 
     public Organization(Link orgLink, List<Position> positions) {
-        Objects.requireNonNull(orgLink.getLinkName());
         Objects.requireNonNull(orgLink.getUrlName());
+        if (orgLink == null) {
+            orgLink = new Link("", "");
+        }
         this.orgLink = orgLink;
         this.positions = positions;
     }
@@ -70,11 +72,11 @@ public class Organization implements Serializable {
     public static class Position implements Serializable {
         private static final long serialVersionUID = 1L;
         @XmlJavaTypeAdapter(LocalDateAdapter.class)
-        private  LocalDate startDate;
+        private LocalDate startDate;
         @XmlJavaTypeAdapter(LocalDateAdapter.class)
-        private  LocalDate endDate;
-        private  String title;
-        private  String description;
+        private LocalDate endDate;
+        private String title;
+        private String description;
 
         public Position() {
         }
@@ -84,7 +86,9 @@ public class Organization implements Serializable {
             Objects.requireNonNull(startDate, "startDate must not be NULL");
             Objects.requireNonNull(endDate, "endDate must not be NULL");
             Objects.requireNonNull(title, "NameOrg must not be NULL");
-            Objects.requireNonNull(description, "NameOrg must not be NULL");
+            if (description == null) {
+                description = "";
+            }
             this.startDate = startDate;
             this.endDate = endDate;
             this.title = title;
