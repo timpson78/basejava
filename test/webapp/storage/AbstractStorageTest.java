@@ -4,6 +4,7 @@ package webapp.storage;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import webapp.Config;
 import webapp.exeption.ExistStorageExeption;
 import webapp.exeption.NotExistStorageExeption;
 import webapp.model.*;
@@ -12,16 +13,17 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public abstract class AbstractStorageTest {
 
     protected Storage storage;
-    protected static final File STORAGE_DIR=new File ("E:\\java\\resume\\basejava\\storage");
+    protected static final File STORAGE_DIR = Config.getInstance().getStorageDir();
 
-    private static final String  UUID1="uuid1";
-    private static final String  UUID2="uuid2";
-    private static final String  UUID3="uuid3";
-    private static final String  UUID4="uuid4";
+    private static final String  UUID1= UUID.randomUUID().toString();
+    private static final String  UUID2= UUID.randomUUID().toString();
+    private static final String  UUID3= UUID.randomUUID().toString();
+    private static final String  UUID4= UUID.randomUUID().toString();
 
     private static final Resume R1;
     private static final Resume R2;
@@ -33,7 +35,7 @@ public abstract class AbstractStorageTest {
        R3 = new Resume(UUID3, "FullName3");
 
 
-       R1.addContact(ContactType.EMAIL,"FullName1@mail.ru");
+       /*R1.addContact(ContactType.EMAIL,"FullName1@mail.ru");
        R1.addContact(ContactType.PHONE,"+7-918-111-11-11");
        R1.addContact(ContactType.WEBSITE,"http://www.UUID1.ru");
        R1.addContact(ContactType.SKYPE,"UUID1_SKYPE");
@@ -58,7 +60,7 @@ public abstract class AbstractStorageTest {
        R2.addContact(ContactType.EMAIL,"FullName2@mail.ru");
        R2.addContact(ContactType.PHONE,"+7-918-222-22-22");
        R2.addContact(ContactType.WEBSITE,"http://www.UUID2.ru");
-       R2.addContact(ContactType.SKYPE,"UUID2_SKYPE");
+       R2.addContact(ContactType.SKYPE,"UUID2_SKYPE");*/
     }
 
 
@@ -125,7 +127,7 @@ public abstract class AbstractStorageTest {
         Resume storageNew = new Resume(UUID4, "uuid4_fullname");
         storage.save(storageNew);
         Assert.assertEquals(4, storage.size());
-        Assert.assertEquals(storageNew.getUuid(), storage.get("uuid4").getUuid());
+        Assert.assertEquals(storageNew.getUuid(), storage.get(storageNew.getUuid()).getUuid());
     }
 
     @Test

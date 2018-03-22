@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class MainConcurrency {
+public class MainConcurrency2 {
 
     private static final int THREAD_NUMBER = 10000;
     private static int counter;
@@ -30,7 +30,7 @@ public class MainConcurrency {
 
         System.out.println(thread0.getState());
         System.out.println(thread1.getState());
-        final MainConcurrency mainConcurrency= new MainConcurrency();
+        final MainConcurrency2 mainConcurrency= new MainConcurrency2();
         List<Thread> threads = new ArrayList<>(THREAD_NUMBER);
         for (int i = 0; i < THREAD_NUMBER; i++) {
             Thread thread=new Thread(new Runnable() {

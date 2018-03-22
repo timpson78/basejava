@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 public class PathStorage extends AbstractStorage<Path> {
     private Path directory;
@@ -83,7 +84,7 @@ public class PathStorage extends AbstractStorage<Path> {
     protected List<Resume> doCopyStorage() {
         List<Resume> resumeList = new ArrayList<>();
         try {
-            Files.list(directory).forEach(path -> resumeList.add(doGet(path)));
+            Files.list(directory).forEach(path -> resumeList.add(PathStorage.this.doGet(path)));
         } catch (IOException e) {
             throw new StorageExeption("Copy Error ", directory.getFileName().toString(), e);
         }

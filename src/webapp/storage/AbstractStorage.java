@@ -59,7 +59,6 @@ public abstract class AbstractStorage<SK> implements Storage {
         } else {
             doSave(r, searchKey);
         }
-
     }
 
     public void delete(String uuid) {
