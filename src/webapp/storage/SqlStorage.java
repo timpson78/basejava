@@ -47,23 +47,12 @@ public class SqlStorage implements Storage {
             ps.execute();
             return null;
         });
-
-        for (Map.Entry<ContactType,String > e: r.getContacts().entrySet()) {
-            sqlHelper.execute("INSERT INTO contact (resume_uuid, type, value) VALUES(?,?,?)", ps -> {
-                ps.setString(1, r.getUuid());
-                ps.setString(2, e.getKey().name());
-                ps.setString(3, e.getValue());
-                ps.execute();
-                return null;
-            });
         }
-    }
+
 
     @Override
     public Resume get(String uuid) {
-        return sqlHelper.execute("SELECT * FROM resume r " +
-                " LEFT JOIN contact c ON r.uuid=c.resume_uuid " +
-                " WHERE r.uuid=?", ps -> {
+        return sqlHelper.execute("SELECT * FROM resume r WHERE r.uuid=?", ps -> {
             ps.setString(1, uuid);
             ResultSet rs = ps.executeQuery();
             if (!rs.next()) {
@@ -88,27 +77,21 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return sqlHelper.execute("SELECT * FROM resume ORDER BY full_name,uuid", new SqlExecutor<List<Resume>>() {
-            @Override
-            public List<Resume> execute(PreparedStatement ps) throws SQLException {
-               List<Resume> list = new ArrayList<Resume>();
-               ResultSet rs=ps.executeQuery();
-               while (rs.next()){
-                    list.add(new Resume(rs.getString("uuid"),rs.getString("full_name")));
-               }
-             return list;
-            }
+        return sqlHelper.execute("SELECT * FROM resume ORDER BY full_name,uuid", ps -> {
+           List<Resume> list = new ArrayList<Resume>();
+           ResultSet rs=ps.executeQuery();
+           while (rs.next()){
+                list.add(new Resume(rs.getString("uuid"),rs.getString("full_name")));
+           }
+         return list;
         });
     }
 
     @Override
     public int size() {
-        return sqlHelper.execute("SELECT count(uuid) FROM resume ", new SqlExecutor<Integer>() {
-            @Override
-            public Integer execute(PreparedStatement ps) throws SQLException {
-                ResultSet rs = ps.executeQuery();
-                return rs.next() ? rs.getInt(1) : 0;
-            }
+        return sqlHelper.execute("SELECT count(uuid) FROM resume ", ps -> {
+            ResultSet rs = ps.executeQuery();
+            return rs.next() ? rs.getInt(1) : 0;
         });
     }
 }
