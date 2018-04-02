@@ -5,8 +5,8 @@ import webapp.exeption.StorageExeption;
 
 import java.sql.SQLException;
 
-public class SqlExeptionUtil {
-    public SqlExeptionUtil() {
+public class ExceptionUtil {
+    public ExceptionUtil() {
     }
 
     public static StorageExeption ConvertExeption(SQLException e){

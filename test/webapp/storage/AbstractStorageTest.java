@@ -35,11 +35,11 @@ public abstract class AbstractStorageTest {
        R3 = new Resume(UUID3, "FullName3");
 
 
-       /*R1.addContact(ContactType.EMAIL,"FullName1@mail.ru");
+       R1.addContact(ContactType.EMAIL,"FullName1@mail.ru");
        R1.addContact(ContactType.PHONE,"+7-918-111-11-11");
        R1.addContact(ContactType.WEBSITE,"http://www.UUID1.ru");
        R1.addContact(ContactType.SKYPE,"UUID1_SKYPE");
-       R1.addSection(SectionType.PERSONAL,new TextSection("Personal information: I realy intelligent and creative person"));
+       /*R1.addSection(SectionType.PERSONAL,new TextSection("Personal information: I realy intelligent and creative person"));
        R1.addSection(SectionType.OBJECTIVE,new TextSection("Objective: To be honerst, i want to find a great job where I can do anything what i want"));
        R1.addSection(SectionType.ACHIEVEMENT, new ListSection("took part in the hard project","implemeted java anywhere","satistfied everybody"));
        R1.addSection(SectionType.QUALIFICATIONS,new ListSection("really great","best of the best","never give up") );
@@ -56,11 +56,11 @@ public abstract class AbstractStorageTest {
                         new Organization.Position( LocalDate.of(1996,01,12), LocalDate.of(2001,02,26),"Engineer","coding")),
                 new Organization("The best School in the world","http://the bestSchool.ru",
                         new Organization.Position( LocalDate.of(2001,01,12), LocalDate.of(2003,02,26),"developer","coding"))
-        ));
+        ));*/
        R2.addContact(ContactType.EMAIL,"FullName2@mail.ru");
        R2.addContact(ContactType.PHONE,"+7-918-222-22-22");
        R2.addContact(ContactType.WEBSITE,"http://www.UUID2.ru");
-       R2.addContact(ContactType.SKYPE,"UUID2_SKYPE");*/
+       R2.addContact(ContactType.SKYPE,"UUID2_SKYPE");
     }
 
 
@@ -118,6 +118,10 @@ public abstract class AbstractStorageTest {
     @Test
     public void update() throws Exception {
         Resume resumeForUpdate = new Resume(UUID1, UUID1);
+        resumeForUpdate.addContact(ContactType.SKYPE,"myskype");
+        resumeForUpdate.addContact(ContactType.PHONE,"124241");
+        resumeForUpdate.addContact(ContactType.EMAIL,"WWW@bezdna.ru");
+
         storage.update(resumeForUpdate);
         Assert.assertTrue(resumeForUpdate.equals(storage.get(resumeForUpdate.getUuid())));
     }
@@ -140,7 +144,7 @@ public abstract class AbstractStorageTest {
     public void getAllSorted() throws Exception {
         List<Resume> myLst = storage.getAllSorted();
         Assert.assertEquals(3, myLst.size());
-        Assert.assertEquals(myLst, Arrays.asList(R1,R2,R3));
+        Assert.assertEquals(Arrays.asList(R1,R2,R3),myLst );
     }
 
     private void assertEquals (Resume r){

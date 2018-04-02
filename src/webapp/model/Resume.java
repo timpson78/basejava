@@ -38,6 +38,14 @@ public class Resume implements Comparable<Resume>, Serializable {
 
     }
 
+    public void setContacts(Map<ContactType, String> contacts) {
+        this.contacts = contacts;
+    }
+
+    public void setSections(Map<SectionType, Section> sections) {
+        this.sections = sections;
+    }
+
     public Map<ContactType, String> getContacts() {
         return contacts;
     }
@@ -92,6 +100,8 @@ public class Resume implements Comparable<Resume>, Serializable {
         int cmp = this.fullName.compareTo(o.fullName);
         return cmp != 0 ? cmp : uuid.compareTo(o.uuid);
     }
+
+
 
     public String getFullName() {
         return fullName;
