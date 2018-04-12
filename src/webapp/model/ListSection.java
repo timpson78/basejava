@@ -12,6 +12,7 @@ public class ListSection extends Section {
     public ListSection() {
     }
 
+
     public ListSection(List<String> listSection) {
         Objects.requireNonNull(listSection, "Lists's section must be not NULL");
         this.listSection = listSection;
@@ -24,6 +25,7 @@ public class ListSection extends Section {
     public List<String> getListSection() {
         return listSection;
     }
+
 
     @Override
     public String toString() {
@@ -41,6 +43,14 @@ public class ListSection extends Section {
     @Override
     public int hashCode() {
         return Objects.hash(listSection);
+    }
+
+    public String getAllString (String separator){
+        String allStrings="";
+        for ( String text: listSection) {
+            allStrings=allStrings+text+separator;
+        }
+        return allStrings;
     }
 
 }

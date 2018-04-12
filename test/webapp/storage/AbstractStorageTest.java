@@ -39,7 +39,7 @@ public abstract class AbstractStorageTest {
        R1.addContact(ContactType.PHONE,"+7-918-111-11-11");
        R1.addContact(ContactType.WEBSITE,"http://www.UUID1.ru");
        R1.addContact(ContactType.SKYPE,"UUID1_SKYPE");
-       /*R1.addSection(SectionType.PERSONAL,new TextSection("Personal information: I realy intelligent and creative person"));
+       R1.addSection(SectionType.PERSONAL,new TextSection("Personal information: I realy intelligent and creative person"));
        R1.addSection(SectionType.OBJECTIVE,new TextSection("Objective: To be honerst, i want to find a great job where I can do anything what i want"));
        R1.addSection(SectionType.ACHIEVEMENT, new ListSection("took part in the hard project","implemeted java anywhere","satistfied everybody"));
        R1.addSection(SectionType.QUALIFICATIONS,new ListSection("really great","best of the best","never give up") );
@@ -47,8 +47,8 @@ public abstract class AbstractStorageTest {
                new Organization("the best work place","",
                     new Organization.Position( LocalDate.of(2001,01,12), LocalDate.of(2003,02,26),"developer","coding"),
                     new Organization.Position( LocalDate.of(2003,01,12), LocalDate.of(2005,02,26),"developer2","coding2")),
-               new Organization("the best work place","http://the bestplace.ru",
-                       new Organization.Position( LocalDate.of(2007,01,12), LocalDate.of(2010,02,26),"developer","coding"))
+               new Organization("the best work place2","http://the bestplace.ru",
+                       new Organization.Position( LocalDate.of(2007,01,12), LocalDate.of(2010,02,2),"developer","coding"))
        ));
 
         R1.addSection(SectionType.EDUCATION, new OrganizationSection(
@@ -56,7 +56,7 @@ public abstract class AbstractStorageTest {
                         new Organization.Position( LocalDate.of(1996,01,12), LocalDate.of(2001,02,26),"Engineer","coding")),
                 new Organization("The best School in the world","http://the bestSchool.ru",
                         new Organization.Position( LocalDate.of(2001,01,12), LocalDate.of(2003,02,26),"developer","coding"))
-        ));*/
+        ));
        R2.addContact(ContactType.EMAIL,"FullName2@mail.ru");
        R2.addContact(ContactType.PHONE,"+7-918-222-22-22");
        R2.addContact(ContactType.WEBSITE,"http://www.UUID2.ru");
@@ -117,21 +117,19 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() throws Exception {
-        Resume resumeForUpdate = new Resume(UUID1, UUID1);
-        resumeForUpdate.addContact(ContactType.SKYPE,"myskype");
-        resumeForUpdate.addContact(ContactType.PHONE,"124241");
-        resumeForUpdate.addContact(ContactType.EMAIL,"WWW@bezdna.ru");
-
+        Resume resumeForUpdate = getNewResume(UUID1,UUID1);
         storage.update(resumeForUpdate);
         Assert.assertTrue(resumeForUpdate.equals(storage.get(resumeForUpdate.getUuid())));
     }
 
+
+
     @Test
     public void save() throws Exception {
-        Resume storageNew = new Resume(UUID4, "uuid4_fullname");
-        storage.save(storageNew);
+        Resume resumeForSave = getNewResume(UUID4,UUID4);
+        storage.save(resumeForSave);
         Assert.assertEquals(4, storage.size());
-        Assert.assertEquals(storageNew.getUuid(), storage.get(storageNew.getUuid()).getUuid());
+        Assert.assertEquals(resumeForSave.getUuid(), storage.get(resumeForSave.getUuid()).getUuid());
     }
 
     @Test
@@ -149,6 +147,33 @@ public abstract class AbstractStorageTest {
 
     private void assertEquals (Resume r){
         Assert.assertEquals(r, storage.get(r.getUuid()));
+    }
+
+    private Resume getNewResume(String uuid, String full_name) {
+
+        Resume resume = new Resume(uuid, full_name);
+        resume.addContact(ContactType.SKYPE,"myskype");
+        resume.addContact(ContactType.PHONE,"124241");
+        resume.addContact(ContactType.EMAIL,"WWW@bezdna.ru");
+
+        resume.addSection(SectionType.PERSONAL,new TextSection("Personal information: UPDATE!!!"));
+        resume.addSection(SectionType.OBJECTIVE,new TextSection("Objective: UPDATE!!!"));
+        resume.addSection(SectionType.ACHIEVEMENT, new ListSection("ACHIEVEMENT-Update1","ACHIEVEMENT-Update2","ACHIEVEMENT-update3"));
+        resume.addSection(SectionType.QUALIFICATIONS, new ListSection("QUALIFICATIONS-Update1","QUALIFICATIONS-Update2","QUALIFICATIONS-update3"));
+        resume.addSection(SectionType.EXPERIENCE, new OrganizationSection(
+                new Organization("EXPERIENCE1","",
+                        new Organization.Position( LocalDate.of(2001,01,12), LocalDate.of(2003,02,26),"developer","coding"),
+                        new Organization.Position( LocalDate.of(2003,01,12), LocalDate.of(2005,02,26),"developer2","coding2")),
+                new Organization("EXPERIENCE2","http://the bestplace.ru",
+                        new Organization.Position( LocalDate.of(2007,01,12), LocalDate.of(2010,02,26),"developer","coding"))
+        ));
+
+        resume.addSection(SectionType.EDUCATION, new OrganizationSection(
+                new Organization("EDUCATION1","http://the bestEducation.ru",
+                        new Organization.Position( LocalDate.of(1996,01,12), LocalDate.of(2001,02,26),"Engineer","coding")),
+                new Organization("EDUCATION2","http://the bestSchool.ru",
+                        new Organization.Position( LocalDate.of(2001,01,12), LocalDate.of(2003,02,26),"developer","coding"))));
+        return resume;
     }
 
 }

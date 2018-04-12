@@ -42,9 +42,17 @@ public class Organization implements Serializable {
         return orgLink;
     }
 
-    public List<Position> getPositions() {
+    public List<Organization.Position> getPositions() {
         return positions;
     }
+
+    public void setPositions(List<Position> positions) {
+        this.positions = positions;
+    }
+    public void setPosition(Position position) {
+        this.positions.add(position);
+    }
+
 
     @Override
     public boolean equals(Object o) {

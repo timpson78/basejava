@@ -1,7 +1,6 @@
 package webapp.model;
 
 public enum SectionType {
-
     PERSONAL("Персональная информация"),
     OBJECTIVE("Позиция"),
     ACHIEVEMENT("Достижения"),
