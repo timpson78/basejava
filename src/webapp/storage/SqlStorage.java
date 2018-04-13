@@ -110,7 +110,7 @@ public class SqlStorage implements Storage {
             Resume r;
             String uuid, full_name;
             List<Resume> list = new ArrayList();
-            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume r")) {
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume r ")) {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     uuid = rs.getString("uuid");
@@ -156,25 +156,13 @@ public class SqlStorage implements Storage {
             switch (sectionType) {
                 case PERSONAL:
                 case OBJECTIVE:
-                    try (PreparedStatement ps = conn.prepareStatement("INSERT INTO section (resume_uuid,type,value) VALUES (?,?,?)")) {
-                        ps.setString(1, r.getUuid());
-                        ps.setString(2, sectionType.name());
-                        TextSection textSection = (TextSection) r.getSection(sectionType);
-                        ps.setString(3, textSection.getText());
-                        ps.execute();
-                    }
+                    insertSection(conn, r, sectionType);
                     break;
                 case ACHIEVEMENT:
                 case QUALIFICATIONS:
-                    try (PreparedStatement ps = conn.prepareStatement("INSERT INTO section (resume_uuid,type,value) VALUES (?,?,?)")) {
-                        ps.setString(1, r.getUuid());
-                        ps.setString(2, sectionType.name());
-                        ListSection listSection = (ListSection) r.getSection(sectionType);
-                        ps.setString(3, listSection.getAllString("\n"));
-                        ps.execute();
-                    }
+                    insertSection(conn, r, sectionType);
                     break;
-                case EDUCATION:
+             /*   case EDUCATION:
                 case EXPERIENCE:
                     OrganizationSection organizationSection = (OrganizationSection) r.getSection(sectionType);
                     List<Organization> orgList = organizationSection.getOrgList();
@@ -196,8 +184,27 @@ public class SqlStorage implements Storage {
                             }
                         }
                     }
+                    break;*/
+                case EXPERIENCE:
+                    break;
+                case EDUCATION:
                     break;
             }
+        }
+    }
+
+    private void insertSection(Connection conn, Resume r, SectionType sectionType) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement("INSERT INTO section (resume_uuid,type,value) VALUES (?,?,?)")) {
+            ps.setString(1, r.getUuid());
+            ps.setString(2, sectionType.name());
+            if (sectionType == SectionType.PERSONAL || sectionType == SectionType.OBJECTIVE) {
+                TextSection textSection = (TextSection) r.getSection(sectionType);
+                ps.setString(3, textSection.getText());
+            } else if ((sectionType == SectionType.ACHIEVEMENT || sectionType == SectionType.QUALIFICATIONS)) {
+                ListSection listSection = (ListSection) r.getSection(sectionType);
+                ps.setString(3, listSection.getAllString("\n"));
+            }
+            ps.execute();
         }
     }
 
@@ -216,14 +223,14 @@ public class SqlStorage implements Storage {
                             break;
                         case ACHIEVEMENT:
                         case QUALIFICATIONS:
-                        r.addSection(sectionType, new ListSection(Arrays.asList(valueSection.split("\n"))));
+                            r.addSection(sectionType, new ListSection(Arrays.asList(valueSection.split("\n"))));
                             break;
 
                     }
                 }
             }
-            setOrganization(uuid, conn, r,"EXPERIENCE");
-            setOrganization(uuid, conn, r,"EDUCATION");
+            // setOrganization(uuid, conn, r,"EXPERIENCE");
+            // setOrganization(uuid, conn, r,"EDUCATION");
         }
     }
 
@@ -239,31 +246,30 @@ public class SqlStorage implements Storage {
     }
 
     private void setOrganization(String uuid, Connection conn, Resume r, String type) throws SQLException {
-        LinkedHashMap<String,Organization> map =new LinkedHashMap();
-        String linkname,linkurl,title,description;
-        LocalDate startDate,endDate;
+        LinkedHashMap<String, Organization> map = new LinkedHashMap<>();
+
         try (PreparedStatement ps1 = conn.prepareStatement("SELECT * FROM organization o WHERE o.resume_uuid=? and o.type=?")) {
             ps1.setString(1, uuid);
-            ps1.setString(2,type);
+            ps1.setString(2, type);
             ResultSet rs1 = ps1.executeQuery();
             while (rs1.next()) {
-                linkname = rs1.getString("linkname");
-                linkurl = rs1.getString("linkurl");
-                startDate = LocalDate.parse(rs1.getString("startdate_position").substring(0,10));
-                endDate = LocalDate.parse(rs1.getString("enddate_position").substring(0,10));
-                title = rs1.getString("title_position");
-                description = rs1.getString("description_position");
+                String linkname = rs1.getString("linkname");
+                String linkurl = rs1.getString("linkurl");
+                LocalDate startDate = LocalDate.parse(rs1.getString("startdate_position").substring(0, 10));
+                LocalDate endDate = LocalDate.parse(rs1.getString("enddate_position").substring(0, 10));
+                String title = rs1.getString("title_position");
+                String description = rs1.getString("description_position");
 
                 Organization org = map.get(linkname);
                 if (org == null) {
-                    org=new Organization(linkname, linkurl, new ArrayList<Organization.Position>());
+                    org = new Organization(linkname, linkurl, new ArrayList<Organization.Position>());
                     map.put(linkname, org);
                 }
                 org.setPosition(new Organization.Position(startDate, endDate, title, description));
             }
 
         }
-        r.addSection(SectionType.valueOf(type),new OrganizationSection(new ArrayList<Organization>(map.values())));
+        r.addSection(SectionType.valueOf(type), new OrganizationSection(new ArrayList<Organization>(map.values())));
         return;
     }
 }
