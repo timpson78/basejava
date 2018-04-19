@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <title>Список всех резюме</title>
 </head>
+<jsp:include page="/WEB-INF/jsp/fragments/header.jsp"/>
 <body>
 <section>
     <table border="1" cellpadding="8" cellspacing="0">
@@ -30,5 +31,6 @@
         %>
     </table>
 </section>
+<jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"/>
 </body>
 </html>

@@ -151,16 +151,18 @@ public class SqlStorage implements Storage {
 
     private void insertSections(Connection conn, Resume r) throws SQLException {
 
+        PreparedStatement psInsert = conn.prepareStatement("INSERT INTO section (resume_uuid,type,value) VALUES (?,?,?)");
+
         for (Map.Entry<SectionType, Section> e : r.getSections().entrySet()) {
             SectionType sectionType = e.getKey();
             switch (sectionType) {
                 case PERSONAL:
                 case OBJECTIVE:
-                    insertSection(conn, r, sectionType);
+                    insertSection(conn, r, sectionType,psInsert);
                     break;
                 case ACHIEVEMENT:
                 case QUALIFICATIONS:
-                    insertSection(conn, r, sectionType);
+                    insertSection(conn, r, sectionType,psInsert);
                     break;
              /*   case EDUCATION:
                 case EXPERIENCE:
@@ -191,10 +193,10 @@ public class SqlStorage implements Storage {
                     break;
             }
         }
+        psInsert.executeBatch();
     }
 
-    private void insertSection(Connection conn, Resume r, SectionType sectionType) throws SQLException {
-        try (PreparedStatement ps = conn.prepareStatement("INSERT INTO section (resume_uuid,type,value) VALUES (?,?,?)")) {
+    private void insertSection(Connection conn, Resume r, SectionType sectionType, PreparedStatement ps) throws SQLException {
             ps.setString(1, r.getUuid());
             ps.setString(2, sectionType.name());
             if (sectionType == SectionType.PERSONAL || sectionType == SectionType.OBJECTIVE) {
@@ -204,8 +206,7 @@ public class SqlStorage implements Storage {
                 ListSection listSection = (ListSection) r.getSection(sectionType);
                 ps.setString(3, listSection.getAllString("\n"));
             }
-            ps.execute();
-        }
+            ps.addBatch();
     }
 
     private void setSections(String uuid, Connection conn, Resume r) throws SQLException {
