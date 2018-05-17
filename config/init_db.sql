@@ -29,10 +29,13 @@ CREATE TABLE section
     REFERENCES resume
     ON DELETE CASCADE,
   type        TEXT     NOT NULL,
-  value       TEXT
+  value       TEXT,
+  CONSTRAINT section__uuid_type
+  UNIQUE (resume_uuid, type)
 );
 CREATE UNIQUE INDEX section_id_uindex
   ON section (id);
+
 
 
 CREATE TABLE organization

@@ -1,5 +1,6 @@
 package webapp.model;
 
+import webapp.utils.DateUtil;
 import webapp.utils.LocalDateAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -7,16 +8,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
     private Link orgLink;
     private List<Position> positions = new ArrayList<>();
+    public static final Organization EMPTY= new Organization("","", Position.EMPTY );
 
     public Organization() {
     }
@@ -33,6 +32,7 @@ public class Organization implements Serializable {
     public Organization(String linkName, String urlName, Position... positions) {
         this(new Link(linkName, urlName), Arrays.asList(positions));
     }
+
 
     public Organization(String linkName, String urlName, List<Position> list) {
         this(new Link(linkName, urlName), list);
@@ -78,6 +78,7 @@ public class Organization implements Serializable {
 
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Position implements Serializable {
+
         private static final long serialVersionUID = 1L;
         @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private LocalDate startDate;
@@ -85,6 +86,8 @@ public class Organization implements Serializable {
         private LocalDate endDate;
         private String title;
         private String description;
+
+        public static final Position EMPTY = new Position( LocalDate.of(1,1,1),LocalDate.of(1,1,1),"","");
 
         public Position() {
         }
@@ -139,6 +142,16 @@ public class Organization implements Serializable {
         public String toString() {
             return "Position{" + startDate + ", " + endDate + ", " + title + ", " + description + "}";
         }
-    }
 
+        public String getFormatedDate(String name) {
+            if (name.equals("start")) {
+                return DateUtil.formatDateOutput(startDate);
+            } else if (name.equals("end")) {
+                return DateUtil.formatDateOutput(endDate);
+            } else {
+                return "";
+            }
+
+        }
+    }
 }

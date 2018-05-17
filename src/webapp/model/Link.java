@@ -20,7 +20,7 @@ public class Link implements Serializable {
         this.urlName = urlName;
     }
 
-    public String getLinkName() {
+    public String   getLinkName() {
         return linkName;
     }
 

@@ -43,7 +43,7 @@ public abstract class AbstractStorageTest {
        R1.addSection(SectionType.OBJECTIVE,new TextSection("Objective: To be honerst, i want to find a great job where I can do anything what i want"));
        R1.addSection(SectionType.ACHIEVEMENT, new ListSection("took part in the hard project","implemeted java anywhere","satistfied everybody"));
        R1.addSection(SectionType.QUALIFICATIONS,new ListSection("really great","best of the best","never give up") );
-       /*R1.addSection(SectionType.EXPERIENCE, new OrganizationSection(
+       R1.addSection(SectionType.EXPERIENCE, new OrganizationSection(
                new Organization("the best work place","",
                     new Organization.Position( LocalDate.of(2001,01,12), LocalDate.of(2003,02,26),"developer","coding"),
                     new Organization.Position( LocalDate.of(2003,01,12), LocalDate.of(2005,02,26),"developer2","coding2")),
@@ -56,11 +56,29 @@ public abstract class AbstractStorageTest {
                         new Organization.Position( LocalDate.of(1996,01,12), LocalDate.of(2001,02,26),"Engineer","coding")),
                 new Organization("The best School in the world","http://the bestSchool.ru",
                         new Organization.Position( LocalDate.of(2001,01,12), LocalDate.of(2003,02,26),"developer","coding"))
-        ));*/
+        ));
        R2.addContact(ContactType.EMAIL,"FullName2@mail.ru");
        R2.addContact(ContactType.PHONE,"+7-918-222-22-22");
        R2.addContact(ContactType.WEBSITE,"http://www.UUID2.ru");
        R2.addContact(ContactType.SKYPE,"UUID2_SKYPE");
+       R2.addSection(SectionType.PERSONAL,TextSection.EMPTY);
+       R2.addSection(SectionType.OBJECTIVE,TextSection.EMPTY);
+       R2.addSection(SectionType.QUALIFICATIONS,ListSection.EMPTY);
+       R2.addSection(SectionType.ACHIEVEMENT,ListSection.EMPTY);
+       R2.addSection(SectionType.EDUCATION,new OrganizationSection(Organization.EMPTY));
+       R2.addSection(SectionType.EXPERIENCE,new OrganizationSection(Organization.EMPTY));
+
+        R3.addContact(ContactType.EMAIL,"FullName3@mail.ru");
+        R3.addContact(ContactType.PHONE,"+7-918-333-33-333");
+        R3.addContact(ContactType.WEBSITE,"http://www.UUID3.ru");
+        R3.addContact(ContactType.SKYPE,"UUID3_SKYPE");
+        R3.addSection(SectionType.PERSONAL,TextSection.EMPTY);
+        R3.addSection(SectionType.OBJECTIVE,TextSection.EMPTY);
+        R3.addSection(SectionType.QUALIFICATIONS,ListSection.EMPTY);
+        R3.addSection(SectionType.ACHIEVEMENT,ListSection.EMPTY);
+        R3.addSection(SectionType.EDUCATION,new OrganizationSection(Organization.EMPTY));
+        R3.addSection(SectionType.EXPERIENCE,new OrganizationSection(Organization.EMPTY));
+
     }
 
 
@@ -160,7 +178,7 @@ public abstract class AbstractStorageTest {
         resume.addSection(SectionType.OBJECTIVE,new TextSection("Objective: UPDATE!!!"));
         resume.addSection(SectionType.ACHIEVEMENT, new ListSection("ACHIEVEMENT-Update1","ACHIEVEMENT-Update2","ACHIEVEMENT-update3"));
         resume.addSection(SectionType.QUALIFICATIONS, new ListSection("QUALIFICATIONS-Update1","QUALIFICATIONS-Update2","QUALIFICATIONS-update3"));
-       /* resume.addSection(SectionType.EXPERIENCE, new OrganizationSection(
+       resume.addSection(SectionType.EXPERIENCE, new OrganizationSection(
                 new Organization("EXPERIENCE1","",
                         new Organization.Position( LocalDate.of(2001,01,12), LocalDate.of(2003,02,26),"developer","coding"),
                         new Organization.Position( LocalDate.of(2003,01,12), LocalDate.of(2005,02,26),"developer2","coding2")),
@@ -172,7 +190,7 @@ public abstract class AbstractStorageTest {
                 new Organization("EDUCATION1","http://the bestEducation.ru",
                         new Organization.Position( LocalDate.of(1996,01,12), LocalDate.of(2001,02,26),"Engineer","coding")),
                 new Organization("EDUCATION2","http://the bestSchool.ru",
-                        new Organization.Position( LocalDate.of(2001,01,12), LocalDate.of(2003,02,26),"developer","coding"))));*/
+                        new Organization.Position( LocalDate.of(2001,01,12), LocalDate.of(2003,02,26),"developer","coding"))));
         return resume;
     }
 

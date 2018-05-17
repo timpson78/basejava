@@ -48,6 +48,12 @@ public class SqlStorage implements Storage {
                 ps.execute();
             }
 
+            try (PreparedStatement ps = conn.prepareStatement("DELETE FROM organization where resume_uuid=?")) {
+                ps.setString(1, uuid);
+                ps.execute();
+            }
+
+
             insertContacts(conn, r);
             insertSections(conn, r);
             return null;
@@ -110,7 +116,7 @@ public class SqlStorage implements Storage {
             Resume r;
             String uuid, full_name;
             List<Resume> list = new ArrayList();
-            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume r ")) {
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume r order by full_name ")) {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     uuid = rs.getString("uuid");
@@ -164,7 +170,7 @@ public class SqlStorage implements Storage {
                 case QUALIFICATIONS:
                     insertSection(conn, r, sectionType,psInsert);
                     break;
-             /*   case EDUCATION:
+                case EDUCATION:
                 case EXPERIENCE:
                     OrganizationSection organizationSection = (OrganizationSection) r.getSection(sectionType);
                     List<Organization> orgList = organizationSection.getOrgList();
@@ -186,10 +192,6 @@ public class SqlStorage implements Storage {
                             }
                         }
                     }
-                    break;*/
-                case EXPERIENCE:
-                    break;
-                case EDUCATION:
                     break;
             }
         }
@@ -224,14 +226,18 @@ public class SqlStorage implements Storage {
                             break;
                         case ACHIEVEMENT:
                         case QUALIFICATIONS:
-                            r.addSection(sectionType, new ListSection(Arrays.asList(valueSection.split("\n"))));
+                            if (valueSection.equals("\n")) {
+                                r.addSection(sectionType, new ListSection(""));
+                            } else {
+                                r.addSection(sectionType, new ListSection(Arrays.asList(valueSection.split("\n"))));
+                            }
                             break;
 
                     }
                 }
             }
-            // setOrganization(uuid, conn, r,"EXPERIENCE");
-            // setOrganization(uuid, conn, r,"EDUCATION");
+             setOrganization(uuid, conn, r,"EXPERIENCE");
+             setOrganization(uuid, conn, r,"EDUCATION");
         }
     }
 

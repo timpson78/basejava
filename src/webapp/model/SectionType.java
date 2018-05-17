@@ -1,8 +1,8 @@
 package webapp.model;
 
 public enum SectionType {
-    PERSONAL("Персональная информация"),
     OBJECTIVE("Позиция"),
+    PERSONAL("Персональная информация"),
     ACHIEVEMENT("Достижения"),
     QUALIFICATIONS("Квалификация"),
     EXPERIENCE("Опыт работы"),
@@ -17,4 +17,5 @@ public enum SectionType {
     public String getTitle() {
         return title;
     }
+
 }

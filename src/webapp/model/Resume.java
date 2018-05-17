@@ -20,6 +20,16 @@ public class Resume implements Comparable<Resume>, Serializable {
     private  String uuid;
     private  String fullName;
 
+    public static final Resume EMPTY =new Resume();
+    static {
+        EMPTY.addSection(SectionType.OBJECTIVE, TextSection.EMPTY);
+        EMPTY.addSection(SectionType.PERSONAL, TextSection.EMPTY);
+        EMPTY.addSection(SectionType.ACHIEVEMENT, ListSection.EMPTY);
+        EMPTY.addSection(SectionType.QUALIFICATIONS, ListSection.EMPTY);
+        EMPTY.addSection(SectionType.EXPERIENCE, new OrganizationSection(Organization.EMPTY));
+        EMPTY.addSection(SectionType.EDUCATION, new OrganizationSection(Organization.EMPTY));
+    }
+
     public Map<ContactType, String> contacts = new EnumMap<ContactType, String>(ContactType.class);
     public Map<SectionType, Section> sections = new EnumMap<SectionType, Section>(SectionType.class);
 
@@ -107,4 +117,7 @@ public class Resume implements Comparable<Resume>, Serializable {
         return fullName;
     }
 
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 }

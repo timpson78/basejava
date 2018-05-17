@@ -1,10 +1,14 @@
 package webapp.model;
 
+import sun.management.snmp.jvmmib.EnumJvmMemPoolType;
+
 import java.util.Objects;
 
 public class TextSection extends Section {
     private static final long serialVersionUID=1L;
     private  String text;
+    public static final TextSection EMPTY = new TextSection("");
+
 
     public TextSection() {
     }
